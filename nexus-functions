@@ -164,5 +164,5 @@ function add_nexus3_redhat_repos() {
   add_nexus3_repo redhat-techpreview https://aven.repository.redhat.com/techpreview/all $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
   add_nexus3_repo jboss-ce https://repository.jboss.org/nexus/content/groups/public/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
 
-  add_nexus3_group_repo maven-central,maven-releases,maven-snapshots,jboss-ce,redhat-ga,java,redhat-ea,redhat-techpreview java $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+  add_nexus3_group_repo maven-central,maven-releases,maven-snapshots,jboss-ce,redhat-ga,redhat-ea,redhat-techpreview java $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
 }
