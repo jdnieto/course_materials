@@ -8,6 +8,22 @@
 # - Siamak Sadeghianfar  https://github.com/siamaksade          #
 #                                                               #
 #################################################################
+function add_nodejs_repo() {
+  local _NEXUS_USER=$1
+  local _NEXUS_PWD=$2
+  local _NEXUS_URL=$3
+
+  read -r -d '' _REPO_JSON << EOM
+{
+  "name": "nodejs",
+  "type": "groovy",
+  "content": "repository.createNpmProxy('npmjs-org','https://registry.npmjs.org'); repository.createNpmGroup('nodejs',['npmjs-org'])"
+}
+EOM
+
+  curl -v -H "Accept: application/json" -H "Content-Type: application/json" -d "$_REPO_JSON" -u "$_NEXUS_USER:$_NEXUS_PWD" "${_NEXUS_URL}/service/rest/v1/script/"
+  curl -v -X POST -H "Content-Type: text/plain" -u "$_NEXUS_USER:$_NEXUS_PWD" "${_NEXUS_URL}/service/rest/v1/script/nodejs/run"
+}
 
 function add_nexus3_repo() {
   local _REPO_ID=$1
@@ -66,5 +82,5 @@ function add_nexus3_redhat_repos() {
   add_nexus3_repo jboss-ce https://repository.jboss.org/nexus/content/groups/public/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
 
   add_nexus3_group_repo maven-central,maven-releases,maven-snapshots,jboss-ce,redhat-ga,redhat-ea,redhat-techpreview java $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
-  add_nexus3_group_repo npms-org nodejs $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+  add_nodejs_repo $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
 }
